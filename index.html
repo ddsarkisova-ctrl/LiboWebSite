@@ -885,7 +885,7 @@
 
   <!-- ── HERO ─────────────────────────────────────────── -->
   <section id="hero">
-    <video autoplay muted loop playsinline
+    <video autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture
       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.35;">
       <source src="hero.mp4" type="video/mp4" />
     </video>
@@ -945,7 +945,7 @@
 
   <!-- ── TECHNOLOGY ─────────────────────────────────────── -->
   <section id="technology" style="position:relative;overflow:hidden;">
-    <video autoplay muted loop playsinline
+    <video autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture
       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.8;">
       <source src="device.mp4" type="video/mp4" />
     </video>
@@ -1333,6 +1333,20 @@
 
       document.getElementById('carouselPrev').addEventListener('click', () => goTo(current - 1));
       document.getElementById('carouselNext').addEventListener('click', () => goTo(current + 1));
+    })();
+
+    (function ensureVideoAutoplay() {
+      const videos = document.querySelectorAll('video');
+      const tryPlay = () => videos.forEach(v => {
+        v.muted = true;
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
+      });
+      tryPlay();
+      window.addEventListener('load', tryPlay);
+      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+      document.addEventListener('click', tryPlay, { once: true });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
     })();
   </script>
 </body>
