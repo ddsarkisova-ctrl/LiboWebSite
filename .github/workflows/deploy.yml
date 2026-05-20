@@ -1,0 +1,21 @@
+name: Deploy to server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull on server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 72.56.39.162
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/liboscience
+            git pull --ff-only
+            systemctl reload nginx
