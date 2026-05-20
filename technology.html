@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libo.Science — Наука и технология</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q80E9XPZG9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q80E9XPZG9');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FAFAF7;
+      --bg-2:      #FFFFFF;
+      --bg-3:      #F2F0EB;
+      --bg-accent: #F0EEFF;
+      --surface:   rgba(0,0,0,0.03);
+      --border:    rgba(0,0,0,0.08);
+      --border-h:  rgba(103,65,255,0.3);
+      --purple:      #6741FF;
+      --purple-mid:  #8B6DFF;
+      --purple-lite: #EDE8FF;
+      --txt-1:  #1A1A1A;
+      --txt-2:  #6B6866;
+      --txt-3:  #ABABAB;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --max-w: 1160px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -300px; left: -300px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(103,65,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 768px) { .container { padding: 0 24px; } }
+
+    section { position: relative; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 18px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 18px; height: 1px;
+      background: var(--purple);
+    }
+
+    .section-title {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(34px, 4vw, 56px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--txt-1);
+      margin-bottom: 18px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--txt-2);
+      line-height: 1.75;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(24px) saturate(1.3);
+      -webkit-backdrop-filter: blur(24px) saturate(1.3);
+      border-bottom-color: var(--border);
+    }
+    @media (max-width: 768px) { nav { padding: 16px 24px; } }
+
+    .nav-logo {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--txt-1);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--txt-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--txt-1); }
+    .nav-links a.active { color: var(--txt-1); font-weight: 500; }
+    @media (max-width: 900px) { .nav-links { display: none; } }
+
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      background: var(--purple);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .page-hero {
+      padding: 160px 0 100px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+    @media (max-width: 860px) {
+      .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .page-hero h1 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(44px, 5.5vw, 72px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--txt-1);
+    }
+
+    .page-hero h1 em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    .page-hero-desc {
+      font-size: 17px;
+      color: var(--txt-2);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--txt-2);
+      background: var(--bg-2);
+    }
+
+    /* ─── STATS ──────────────────────────────────────── */
+    .stats-section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-intro {
+      max-width: 640px;
+      margin-bottom: 56px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    @media (max-width: 860px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    .stat-card {
+      background: var(--bg-2);
+      padding: 36px 28px;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant', serif;
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--purple);
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--txt-2);
+      line-height: 1.5;
+    }
+
+    /* ─── WHAT IS TDCS ───────────────────────────────── */
+    .tdcs-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tdcs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .tdcs-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .tdcs-points {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .tdcs-point {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .tdcs-point-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--purple-lite);
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tdcs-point-body strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--txt-1);
+      margin-bottom: 4px;
+    }
+
+    .tdcs-point-body span {
+      font-size: 14px;
+      color: var(--txt-2);
+      line-height: 1.6;
+    }
+
+    .current-callout {
+      background: var(--bg-accent);
+      border: 1px solid var(--border-h);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-top: 40px;
+    }
+
+    .current-callout-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 10px;
+    }
+
+    .current-callout p {
+      font-size: 15px;
+      color: var(--txt-2);
+      line-height: 1.65;
+    }
+
+    .current-callout strong {
+      color: var(--txt-1);
+    }
+
+    /* ─── RECOGNITION ────────────────────────────────── */
+    .recognition-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .recognition-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+    @media (max-width: 860px) {
+      .recognition-cards { grid-template-columns: 1fr; }
+    }
+
+    .rec-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      transition: border-color 0.2s;
+    }
+    .rec-card:hover { border-color: var(--border-h); }
+
+    .rec-card-flag {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .rec-card-country {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 6px;
+    }
+
+    .rec-card-name {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--txt-1);
+      margin-bottom: 12px;
+    }
+
+    .rec-card-desc {
+      font-size: 14px;
+      color: var(--txt-2);
+      line-height: 1.6;
+    }
+
+    /* ─── BRAIN & DESIRE ─────────────────────────────── */
+    .brain-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-3);
+    }
+
+    .brain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .brain-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .brain-systems {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .brain-system {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--txt-1);
+    }
+
+    .brain-system-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--purple);
+      flex-shrink: 0;
+    }
+
+    .stress-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+    }
+
+    .stress-box-title {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--txt-1);
+      margin-bottom: 20px;
+    }
+
+    .stress-factors {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stress-factor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--txt-2);
+    }
+
+    .stress-factor::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--border-h);
+      flex-shrink: 0;
+    }
+
+    /* ─── RESEARCH ───────────────────────────────────── */
+    .research-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .research-result {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .research-result { grid-template-columns: 1fr; }
+    }
+
+    .result-visual {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
+
+    .result-chart {
+      display: flex;
+      gap: 32px;
+      align-items: flex-end;
+      margin-bottom: 28px;
+    }
+
+    .result-bar-wrap {
+      flex: 1;
+      text-align: center;
+    }
+
+    .result-bar-label {
+      font-size: 12px;
+      color: var(--txt-3);
+      margin-bottom: 10px;
+    }
+
+    .result-bar-outer {
+      height: 160px;
+      background: var(--bg-3);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .result-bar-fill {
+      width: 100%;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      transition: height 1s var(--ease-out);
+    }
+
+    .result-bar-fill.before {
+      height: 38%;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+    }
+
+    .result-bar-fill.after {
+      height: 72%;
+      background: linear-gradient(to top, var(--purple), var(--purple-mid));
+    }
+
+    .result-bar-value {
+      font-family: 'Cormorant', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--txt-1);
+      margin-top: 10px;
+    }
+
+    .result-bar-sub {
+      font-size: 12px;
+      color: var(--txt-3);
+    }
+
+    .result-note {
+      font-size: 12px;
+      color: var(--txt-3);
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      line-height: 1.5;
+    }
+
+    .result-text h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--txt-1);
+      margin-bottom: 20px;
+    }
+
+    .result-text p {
+      font-size: 15px;
+      color: var(--txt-2);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .result-highlight {
+      background: var(--purple-lite);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--txt-1);
+      line-height: 1.6;
+    }
+
+    /* ─── SAFETY ─────────────────────────────────────── */
+    .safety-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-3);
+    }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 56px;
+    }
+    @media (max-width: 860px) {
+      .safety-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .safety-big-num {
+      font-family: 'Cormorant', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .safety-big-label {
+      font-size: 14px;
+      color: var(--txt-2);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .safety-sensations {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .safety-sensation {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--txt-1);
+    }
+
+    .safety-sensation-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--purple-lite);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .safety-text p {
+      font-size: 15px;
+      color: var(--txt-2);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    /* ─── SUMMARY ────────────────────────────────────── */
+    .summary-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+    @media (max-width: 640px) {
+      .summary-list { grid-template-columns: 1fr; }
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 24px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .summary-check {
+      width: 20px;
+      height: 20px;
+      background: var(--purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .summary-item-text {
+      font-size: 14px;
+      color: var(--txt-1);
+      line-height: 1.5;
+    }
+
+    /* ─── RESEARCH CARDS ────────────────────────────── */
+    .research-section-tech {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .research-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 64px;
+    }
+
+    .research-grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 16px;
+      cursor: grab;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(103,65,255,0.15) transparent;
+    }
+    .research-grid:active { cursor: grabbing; }
+    .research-grid::-webkit-scrollbar { height: 3px; }
+    .research-grid::-webkit-scrollbar-track { background: transparent; }
+    .research-grid::-webkit-scrollbar-thumb { background: rgba(103,65,255,0.15); border-radius: 2px; }
+
+    .research-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.25s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 600px) { .research-card { flex: 0 0 280px; } }
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(103,65,255,0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .research-card:hover { border-color: rgba(103,65,255,0.22); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.07); }
+    .research-card:hover::before { opacity: 1; }
+
+    .research-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      background: var(--purple-lite);
+      border: 1px solid rgba(103,65,255,0.2);
+      padding: 4px 10px;
+      border-radius: 100px;
+      align-self: flex-start;
+    }
+
+    .research-quote {
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--txt-1);
+      border-left: 2px solid rgba(103,65,255,0.3);
+      padding-left: 16px;
+      flex-grow: 1;
+    }
+
+    .research-why {
+      font-size: 13px;
+      color: var(--txt-2);
+      line-height: 1.65;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .research-why strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--txt-3);
+      margin-bottom: 6px;
+    }
+
+    .research-source { display: flex; align-items: center; gap: 8px; }
+    .research-source a {
+      font-size: 12px;
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .research-source a:hover { opacity: 0.75; }
+
+    /* ─── DISCLAIMER ─────────────────────────────────── */
+    .disclaimer {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .disclaimer-inner {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      max-width: 760px;
+    }
+
+    .disclaimer-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--txt-3);
+    }
+
+    .disclaimer p {
+      font-size: 13px;
+      color: var(--txt-3);
+      line-height: 1.65;
+    }
+
+    /* ─── CTA ────────────────────────────────────────── */
+    .cta-section {
+      padding: 100px 0;
+    }
+
+    .cta-inner {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-inner .section-title {
+      margin-bottom: 16px;
+    }
+
+    .cta-inner .section-sub {
+      max-width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--txt-1);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--txt-3);
+    }
+
+    .footer-disclaimer {
+      padding: 20px 24px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--txt-3);
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────── -->
+  <nav>
+    <a href="index.html" class="nav-logo">Libo.Science</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="technology.html" class="active">Технология</a></li>
+      <li><a href="order.html">Заказать</a></li>
+      <li><a href="index.html#contact">Контакты</a></li>
+    </ul>
+    <a href="order.html" class="nav-cta">Заказать</a>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────── -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner">
+        <div>
+          <p class="section-label">Наука</p>
+          <h1>Наука, лежащая<br />в основе<br /><em>Libo.Science</em></h1>
+        </div>
+        <div>
+          <p class="page-hero-desc">Libo.Science основан на технологии транскраниальной стимуляции постоянным током — методе, который изучается более 25 лет и получил признание в международных клинических руководствах.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS ─────────────────────────────────────────── -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-intro">
+        <p class="section-label">Масштаб проблемы</p>
+        <h2 class="section-title">Снижение либидо — одна из самых распространённых жалоб</h2>
+        <p class="section-sub">По данным клинических исследований, это явление затрагивает десятки миллионов людей по всему миру — и остаётся одной из самых частых тем в практике врачей разных специальностей.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">80%</div>
+          <div class="stat-label">пар сталкиваются с расхождением уровня сексуального желания</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">56%</div>
+          <div class="stat-label">людей на антидепрессантах группы СИОЗС отмечают снижение либидо</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">40%</div>
+          <div class="stat-label">женщин спустя год после родов продолжают испытывать снижение желания</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">№1</div>
+          <div class="stat-label">тема в кабинетах гинекологов, урологов и эндокринологов</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHAT IS TDCS ───────────────────────────────────── -->
+  <section class="tdcs-section">
+    <div class="container">
+      <div class="tdcs-grid">
+        <div>
+          <p class="section-label">Технология</p>
+          <h2 class="section-title">Что такое tDCS</h2>
+          <p class="section-sub">tDCS — транскраниальная стимуляция постоянным током — это мягкая неинвазивная технология нейромодуляции, которая изучается учёными более 25 лет и активно применяется в Европе и США.</p>
+
+          <div class="tdcs-points">
+            <div class="tdcs-point">
+              <div class="tdcs-point-icon">01</div>
+              <div class="tdcs-point-body">
+                <strong>Очень слабый ток</strong>
+                <span>Через электроды на поверхности головы подаётся ток 1–2 мА — в десятки раз меньше токов, используемых в медицинских процедурах.</span>
+              </div>
+            </div>
+            <div class="tdcs-point">
+              <div class="tdcs-point-icon">02</div>
+              <div class="tdcs-point-body">
+                <strong>Полная безопасность</strong>
+                <span>Метод не вызывает потери сознания, судорог, привыкания или повреждений. Пользователь ощущает лишь лёгкое покалывание в первые минуты.</span>
+              </div>
+            </div>
+            <div class="tdcs-point">
+              <div class="tdcs-point-icon">03</div>
+              <div class="tdcs-point-body">
+                <strong>Работа через нейронные сети</strong>
+                <span>Главная идея — мягко усиливать активность нейронных сетей мозга, связанных с мотивацией, системой вознаграждения и сексуальным желанием.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="padding: 36px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-lg);">
+            <div style="font-family: 'Cormorant', serif; font-size: 64px; font-weight: 300; color: var(--purple); line-height: 1; margin-bottom: 12px;">33 200</div>
+            <p style="font-size: 15px; color: var(--txt-1); font-weight: 500; margin-bottom: 12px;">сеансов стимуляции проанализировано в международном обзоре безопасности</p>
+            <p style="font-size: 14px; color: var(--txt-2); line-height: 1.65;">Без единого серьёзного нежелательного явления при стандартных параметрах. В отличие от фармакологических методов, tDCS не вызывает привыкания, не взаимодействует с другими препаратами и не требует рецепта.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RECOGNITION ────────────────────────────────────── -->
+  <section class="recognition-section">
+    <div class="container">
+      <p class="section-label">Международное признание</p>
+      <h2 class="section-title">Технология включена в клинические<br />рекомендации трёх стран</h2>
+      <p class="section-sub" style="max-width: 600px;">За последние годы опубликованы тысячи научных работ по применению tDCS в нейронауке, психологии и медицине. tDCS рассматривается в ведущих доказательных руководствах мира — наряду с фармакологическими и другими признанными методами лечения.</p>
+
+      <div class="recognition-cards">
+        <div class="rec-card">
+          <div class="rec-card-flag">🇨🇦</div>
+          <div class="rec-card-country">Канада</div>
+          <div class="rec-card-name">CANMAT</div>
+          <p class="rec-card-desc">Канадские клинические рекомендации по лечению депрессии — одно из наиболее цитируемых руководств в психиатрии.</p>
+        </div>
+        <div class="rec-card">
+          <div class="rec-card-flag">🇬🇧</div>
+          <div class="rec-card-country">Великобритания</div>
+          <div class="rec-card-name">NICE</div>
+          <p class="rec-card-desc">Британский национальный институт здравоохранения и качества медицинской помощи — золотой стандарт доказательной медицины.</p>
+        </div>
+        <div class="rec-card">
+          <div class="rec-card-flag">🇪🇺</div>
+          <div class="rec-card-country">Европа</div>
+          <div class="rec-card-name">Европейские руководства</div>
+          <p class="rec-card-desc">Европейские доказательные рекомендации по применению нейромодуляции в клинической практике.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BRAIN & DESIRE ──────────────────────────────────── -->
+  <section class="brain-section">
+    <div class="container">
+      <div class="brain-grid">
+        <div>
+          <p class="section-label">Нейронаука либидо</p>
+          <h2 class="section-title">Либидо живёт в мозге,<br />не только в гормонах</h2>
+          <p class="section-sub">Современная нейронаука показывает, что сексуальное желание напрямую зависит от работы мозговых систем мотивации, вознаграждения и эмоциональной регуляции. Именно их и поддерживает tDCS.</p>
+
+          <div class="brain-systems">
+            <div class="brain-system">
+              <div class="brain-system-dot"></div>
+              Система мотивации и вознаграждения
+            </div>
+            <div class="brain-system">
+              <div class="brain-system-dot"></div>
+              Эмоциональная регуляция
+            </div>
+            <div class="brain-system">
+              <div class="brain-system-dot"></div>
+              Когнитивный контроль и внимание
+            </div>
+            <div class="brain-system">
+              <div class="brain-system-dot"></div>
+              Уровень стресса и тревожности
+            </div>
+          </div>
+        </div>
+
+        <div class="stress-box">
+          <p class="stress-box-title">Почему желание пропадает даже при нормальных анализах</p>
+          <p style="font-size: 14px; color: var(--txt-2); margin-bottom: 20px; line-height: 1.65;">Когда эти системы перегружены или подавлены, желание снижается — даже при нормальных анализах и хорошем здоровье. Вот почему стресс, тревога и выгорание так часто убивают либидо.</p>
+          <div class="stress-factors">
+            <div class="stress-factor">Хронический стресс и выгорание</div>
+            <div class="stress-factor">Тревожность и депрессивная симптоматика</div>
+            <div class="stress-factor">Нарушения сна</div>
+            <div class="stress-factor">Умственная перегрузка</div>
+            <div class="stress-factor">Эмоциональное истощение</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESEARCH ────────────────────────────────────────── -->
+  <section class="research-section">
+    <div class="container">
+      <p class="section-label">Результаты исследований</p>
+      <h2 class="section-title">Что показывает клиническая практика</h2>
+      <p class="section-sub" style="max-width: 560px;">Применение tDCS для поддержки сексуального желания — одно из самых перспективных новых направлений. Опубликованные исследования включали участников с выраженным снижением либидо.</p>
+
+      <div class="research-result">
+        <div class="result-visual">
+          <div class="result-chart">
+            <div class="result-bar-wrap">
+              <div class="result-bar-label">До курса</div>
+              <div class="result-bar-outer">
+                <div class="result-bar-fill before"></div>
+              </div>
+              <div class="result-bar-value">Низкий</div>
+              <div class="result-bar-sub">уровень желания</div>
+            </div>
+            <div class="result-bar-wrap">
+              <div class="result-bar-label">После 10 сеансов</div>
+              <div class="result-bar-outer">
+                <div class="result-bar-fill after"></div>
+              </div>
+              <div class="result-bar-value">Средний+</div>
+              <div class="result-bar-sub">уровень желания</div>
+            </div>
+          </div>
+          <p class="result-note">Оценка по международной шкале Hurlbert Index of Sexual Desire. ~70 участников с выраженным снижением либидо.</p>
+        </div>
+
+        <div class="result-text">
+          <h3>Выраженное улучшение за короткий курс</h3>
+          <p>После 10 сеансов tDCS участники в среднем переходили с уровня <strong>низкого</strong> сексуального желания к <strong>верхней границе среднего уровня</strong> — по международному стандартизированному тесту.</p>
+          <p>Исследования использовали шкалу Hurlbert Index of Sexual Desire — один из признанных инструментов клинической сексологии.</p>
+          <div class="result-highlight">
+            Многие фармакологические средства показывают умеренный эффект при высокой частоте побочных явлений. tDCS продемонстрировал <strong>сильный клинический сигнал при благоприятном профиле переносимости</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESEARCH CARDS ───────────────────────────────── -->
+  <section class="research-section-tech">
+    <div class="container">
+      <div class="research-header">
+        <p class="section-label" style="justify-content:center;">Доказательная база</p>
+        <h2 class="section-title">Что говорит наука</h2>
+        <p class="section-sub" style="margin: 0 auto;">Ключевые результаты мирового научного сообщества о tDCS и его влиянии на сексуальное желание.</p>
+      </div>
+
+      <div class="research-grid">
+
+        <div class="research-card">
+          <span class="research-tag">Клиническая технология</span>
+          <p class="research-quote">«Европейские доказательные рекомендации по tDCS отметили вероятную эффективность метода по ряду направлений, включая депрессию и снижение патологического влечения.»</p>
+          <div class="research-why">
+            <strong>Почему это важно</strong>
+            tDCS уже давно рассматривается не как экзотика, а как реальная и признанная платформа современной нейромодуляции.
+          </div>
+          <div class="research-source">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/27866120/" target="_blank" rel="noopener">
+              Lefaucheur et al., 2017
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <span class="research-tag">Безопасность</span>
+          <p class="research-quote">«Крупный доказательный обзор безопасности tDCS не выявил серьёзных нежелательных явлений или признаков необратимого повреждения мозга при использовании стандартных протоколов.»</p>
+          <div class="research-why">
+            <strong>Почему это важно</strong>
+            Технология мягкая, хорошо изученная и при корректном применении обладает благоприятным профилем безопасности.
+          </div>
+          <div class="research-source">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/27372845/" target="_blank" rel="noopener">
+              Bikson et al., 2016
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <span class="research-tag">Объективное влияние на мозг</span>
+          <p class="research-quote">«tDCS способен вызывать измеримые изменения в возбудимости коры, нейрохимии и функциональной связанности мозговых сетей.»</p>
+          <div class="research-why">
+            <strong>Почему это важно</strong>
+            Речь идёт не просто о субъективных ощущениях, а о технологии с объективно подтверждаемыми нейрофизиологическими эффектами.
+          </div>
+          <div class="research-source">
+            <span style="font-size:12px;color:var(--txt-3);">Nitsche &amp; Paulus, 2000 · Stagg et al., 2009 · Keeser et al., 2011</span>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <span class="research-tag">Дофамин и вознаграждение</span>
+          <p class="research-quote">«В исследовании с позитронно-эмиссионной томографией префронтальная tDCS была связана с повышением внеклеточного дофамина в части стриатума, относящейся к системе мотивации и вознаграждения.»</p>
+          <div class="research-why">
+            <strong>Почему это важно</strong>
+            Сексуальное желание тесно связано именно с мотивацией и системой вознаграждения — и tDCS воздействует напрямую на эти механизмы.
+          </div>
+          <div class="research-source">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/29688276/" target="_blank" rel="noopener">
+              Fonteneau et al., 2018
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <span class="research-tag">Клинические данные о либидо</span>
+          <p class="research-quote">«В опубликованном исследовании у женщин со сниженным сексуальным желанием tDCS был связан со значимым улучшением показателей сексуального желания по сравнению с контролем.»</p>
+          <div class="research-why">
+            <strong>Почему это важно</strong>
+            Один из первых прямых клинических сигналов того, что сексуальное желание может быть мишенью для нейромодуляции.
+          </div>
+          <div class="research-source">
+            <a href="https://www.behavsci.ir/article_184995.html" target="_blank" rel="noopener">
+              Ranjbar-Shayan et al., 2023
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="section-label" style="justify-content: center;">Предзаказ</p>
+        <h2 class="section-title">Готовы попробовать?</h2>
+        <p class="section-sub">Оформите предзаказ сейчас — поставка в июле 2026.</p>
+        <a href="order.html" class="btn-primary">
+          Заказать
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="index.html" class="footer-logo">Libo.Science</a>
+        <span class="footer-copy">© 2026 Libo.Science. Все права защищены.</span>
+      </div>
+      <div class="footer-disclaimer">
+        Libo.Science — wellness-устройство для поддержки сексуального благополучия и качества интимной жизни. Не предназначено для диагностики заболеваний и не заменяет консультацию врача.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const grid = document.querySelector('.research-grid');
+    if (grid) {
+      let isDown = false, startX, scrollLeft;
+      grid.addEventListener('mousedown', e => { isDown = true; grid.classList.add('active'); startX = e.pageX - grid.offsetLeft; scrollLeft = grid.scrollLeft; });
+      grid.addEventListener('mouseleave', () => { isDown = false; });
+      grid.addEventListener('mouseup', () => { isDown = false; });
+      grid.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - grid.offsetLeft; grid.scrollLeft = scrollLeft - (x - startX) * 1.5; });
+    }
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libo.Science — Заказ</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q80E9XPZG9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q80E9XPZG9');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FAFAF7;
+      --bg-2:      #FFFFFF;
+      --bg-3:      #F2F0EB;
+      --border:    rgba(0,0,0,0.08);
+      --border-h:  rgba(103,65,255,0.3);
+      --purple:      #6741FF;
+      --purple-lite: #EDE8FF;
+      --txt-1:  #1A1A1A;
+      --txt-2:  #6B6866;
+      --txt-3:  #ABABAB;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(24px) saturate(1.3);
+      -webkit-backdrop-filter: blur(24px) saturate(1.3);
+      border-bottom-color: var(--border);
+    }
+    @media (max-width: 768px) { nav { padding: 16px 24px; } }
+
+    .nav-logo {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--txt-1);
+      text-decoration: none;
+      flex: 0 0 auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--txt-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--txt-1); }
+    .nav-links a.active { color: var(--txt-1); font-weight: 500; }
+    @media (max-width: 900px) { .nav-links { display: none; } }
+
+    /* ─── PRODUCT LAYOUT ─────────────────────────────── */
+    .product-wrap {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      min-height: calc(100vh - 61px);
+      margin-top: 61px;
+    }
+    @media (max-width: 1024px) {
+      .product-wrap { grid-template-columns: 1fr; min-height: auto; }
+    }
+
+    /* ─── LEFT: CAROUSEL ─────────────────────────────── */
+    .product-image-col {
+      background: var(--bg-3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 40px 0;
+    }
+
+    .carousel {
+      position: relative;
+      width: 85%;
+      margin: 0 auto;
+      aspect-ratio: 3/4;
+      max-height: 560px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: var(--bg-3);
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.45s var(--ease-out);
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-slide img,
+    .carousel-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 5%;
+      display: block;
+    }
+
+    /* Arrow buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .carousel-btn:hover { background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px;
+      background: var(--bg-3);
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--txt-3);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+    .carousel-dot.active {
+      background: var(--purple);
+      transform: scale(1.3);
+    }
+
+    /* Thumbnails */
+    .carousel-thumbs {
+      display: flex;
+      gap: 8px;
+      padding: 16px 0 32px;
+      background: var(--bg-3);
+      overflow-x: auto;
+    }
+
+    .carousel-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .carousel-thumb.active { border-color: var(--purple); }
+    .carousel-thumb img,
+    .carousel-thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    /* ─── RIGHT: DETAILS ─────────────────────────────── */
+    .product-details {
+      padding: 52px 44px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    @media (max-width: 1024px) {
+      .product-details { padding: 36px 24px; }
+    }
+
+    .product-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 10px;
+    }
+
+    .delivery-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--purple-lite);
+      color: var(--purple);
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+
+    .product-name {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--txt-1);
+      margin-bottom: 14px;
+    }
+
+    .product-desc {
+      font-size: 15px;
+      color: var(--txt-2);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── PRICE BLOCK ────────────────────────────────── */
+    .price-block {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--bg-3);
+      border-radius: var(--radius-lg);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .price-old {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--txt-3);
+      line-height: 1;
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
+    .price-main {
+      font-family: 'Cormorant', serif;
+      font-size: 52px;
+      font-weight: 400;
+      color: var(--txt-1);
+      line-height: 1;
+    }
+
+    .price-currency {
+      font-size: 20px;
+      color: var(--txt-2);
+      font-weight: 300;
+    }
+
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--purple);
+      padding: 3px 8px;
+      border-radius: 100px;
+      border: 1px solid rgba(103,65,255,0.25);
+      background: var(--purple-lite);
+      align-self: center;
+      white-space: nowrap;
+    }
+
+    .price-delivery {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--txt-3);
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .delivery-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .price-perks {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .price-perk {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--txt-2);
+    }
+
+    .price-perk svg { flex-shrink: 0; color: var(--purple); }
+
+    /* ─── FORM ───────────────────────────────────────── */
+    .order-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--txt-3);
+      margin-bottom: 2px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      color: var(--txt-1);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input::placeholder { color: var(--txt-3); }
+    .form-input:focus { border-color: var(--border-h); }
+
+    .btn-pay {
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s var(--ease-out);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .btn-pay.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-pay.enabled:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─── SUCCESS MESSAGE ─────────────────────────────── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 28px 24px;
+      background: var(--purple-lite);
+      border: 1px solid var(--border-h);
+      border-radius: var(--radius-lg);
+    }
+
+    .success-msg.visible { display: block; }
+
+    .success-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .success-title {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--txt-1);
+      margin-bottom: 10px;
+    }
+
+    .success-text {
+      font-size: 14px;
+      color: var(--txt-2);
+      line-height: 1.65;
+    }
+
+    /* ─── TRUST BADGES ───────────────────────────────── */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .trust-item { text-align: center; }
+
+    .trust-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--purple-lite);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+    }
+
+    .trust-label {
+      font-size: 12px;
+      color: var(--txt-2);
+      line-height: 1.4;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      padding: 24px 40px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+    @media (max-width: 768px) { footer { padding: 20px 24px; } }
+
+    .footer-disclaimer {
+      font-size: 12px;
+      color: var(--txt-3);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────── -->
+  <nav>
+    <a href="index.html" class="nav-logo">Libo.Science</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="technology.html">Технология</a></li>
+      <li><a href="order.html" class="active">Заказать</a></li>
+      <li><a href="index.html#contact">Контакты</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── PRODUCT ───────────────────────────────────────── -->
+  <div class="product-wrap">
+
+    <!-- LEFT: CAROUSEL -->
+    <div class="product-image-col">
+      <div class="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide">
+            <img src="photo1.png" alt="Libo.Science" style="object-position: center 30%;" />
+          </div>
+          <div class="carousel-slide">
+            <img src="photo2.png" alt="Libo.Science" style="object-fit: contain; object-position: center center; background: #F5F0EB;" />
+          </div>
+          <div class="carousel-slide">
+            <video autoplay muted loop playsinline>
+              <source src="device.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="carousel-slide">
+            <video autoplay muted loop playsinline>
+              <source src="hero.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="Назад">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="var(--txt-1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="Вперёд">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3l5 5-5 5" stroke="var(--txt-1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="carousel-thumbs" id="carouselThumbs">
+        <div class="carousel-thumb active" onclick="goToSlide(0)">
+          <img src="photo1.png" alt="" />
+        </div>
+        <div class="carousel-thumb" onclick="goToSlide(1)">
+          <img src="photo2.png" alt="" />
+        </div>
+        <div class="carousel-thumb" onclick="goToSlide(2)">
+          <video muted loop playsinline>
+            <source src="device.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="carousel-thumb" onclick="goToSlide(3)">
+          <video muted loop playsinline>
+            <source src="hero.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DETAILS -->
+    <div class="product-details">
+
+      <p class="product-label">Заказ</p>
+      <h1 class="product-name">Libo.Science Headset</h1>
+      <p class="product-desc">Носимый нейростимулятор для поддержки сексуального желания через мягкую модуляцию мозговых систем мотивации. 20 минут в день — без препаратов и побочных эффектов.</p>
+
+      <!-- Price -->
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-old">50 000 ₽</span>
+          <span class="price-main">34 999</span>
+          <span class="price-currency">₽</span>
+        </div>
+        <div class="price-perks">
+          <div class="price-perk">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Бесплатная доставка
+          </div>
+          <div class="price-perk">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Подписка не требуется
+          </div>
+        </div>
+      </div>
+
+      <!-- Order form -->
+      <div class="order-form" id="orderForm">
+        <p class="form-label">Оформить заказ</p>
+        <input
+          type="email"
+          class="form-input"
+          id="emailInput"
+          placeholder="Ваш email"
+          autocomplete="email"
+        />
+        <button class="btn-pay" id="payBtn" onclick="handlePay()">
+          Заказать
+        </button>
+      </div>
+
+      <!-- Success message (hidden by default) -->
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M4 11l5 5 9-9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="success-title">Заявка получена!</p>
+        <p class="success-text">Мы свяжемся с вами в ближайшее время для подтверждения заказа и уточнения деталей доставки.</p>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2l1.5 4H14l-3.5 2.5 1.5 4L8 10l-4 2.5 1.5-4L2 6h4.5L8 2z" stroke="var(--purple)" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="trust-label">25+ лет<br/>исследований</p>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2C5 2 2 4 2 8s3 6 6 6 6-3 6-6-3-6-6-6z" stroke="var(--purple)" stroke-width="1.2"/>
+              <path d="M5.5 8l2 2 3-3" stroke="var(--purple)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="trust-label">Клинически<br/>изучено</p>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v4M8 10v4M2 8h4M10 8h4" stroke="var(--purple)" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="8" cy="8" r="2" stroke="var(--purple)" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <p class="trust-label">Без препаратов<br/>и гормонов</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FOOTER ────────────────────────────────────────── -->
+  <footer>
+    <p class="footer-disclaimer">
+      Libo.Science — wellness-устройство для поддержки сексуального благополучия и качества интимной жизни. Не предназначено для диагностики заболеваний и не заменяет консультацию врача.
+    </p>
+  </footer>
+
+  <script>
+    // ── NAV SCROLL ───────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── CAROUSEL ──────────────────────────────────────────
+    let current = 0;
+    const total = 4;
+    const track = document.getElementById('carouselTrack');
+    const thumbs = document.querySelectorAll('.carousel-thumb');
+
+    function goToSlide(index) {
+      current = (index + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+    }
+
+    function moveCarousel(dir) {
+      goToSlide(current + dir);
+    }
+
+    // ── EMAIL / PAY BUTTON ────────────────────────────────
+    const emailInput = document.getElementById('emailInput');
+    const payBtn = document.getElementById('payBtn');
+    const orderForm = document.getElementById('orderForm');
+    const successMsg = document.getElementById('successMsg');
+
+    emailInput.addEventListener('input', () => {
+      const valid = emailInput.value.includes('@') && emailInput.value.includes('.');
+      payBtn.classList.toggle('enabled', valid);
+    });
+
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyDgK_c3sGOBybesTXNdmwdRik4UDXUhLK0MYErt5GKSTOF1zQG4s7ZWYquY9d227J/exec';
+
+    function handlePay() {
+      const email = emailInput.value;
+      fetch(SCRIPT_URL + '?email=' + encodeURIComponent(email), { mode: 'no-cors' });
+      orderForm.style.display = 'none';
+      successMsg.classList.add('visible');
+    }
+  </script>
+</body>
+</html>
